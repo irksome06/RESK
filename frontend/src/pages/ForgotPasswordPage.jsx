@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { KeyRound, Mail, ArrowRight, ArrowLeft, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
+import { Mail, ArrowRight, ArrowLeft, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
+import AuthLayout from '../components/AuthLayout';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -37,49 +38,52 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-industrial-grid">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex p-3 rounded-2xl bg-slate-900/90 border border-amber-500/30 glow-amber mb-1">
-            <KeyRound className="w-8 h-8 text-amber-400" />
-          </div>
-          <h1
-            className="text-2xl sm:text-3xl font-bold tracking-wider text-white uppercase"
-            style={{ fontFamily: 'var(--font-display, sans-serif)' }}
-          >
-            Password Recovery
-          </h1>
-          <p className="text-xs text-slate-400 font-mono tracking-wide uppercase">
-            Official Organization Email Verification
-          </p>
-        </div>
+    <AuthLayout>
+      <div className="w-full space-y-4">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 relative overflow-hidden border border-slate-200">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-600 via-amber-400 to-emerald-500"></div>
 
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600"></div>
+          {/* Heading */}
+          <div className="mb-6 space-y-1">
+            <div className="flex items-center space-x-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono uppercase bg-teal-50 text-teal-800 border border-teal-200 font-semibold">
+                Credential Recovery
+              </span>
+            </div>
+            <h2
+              className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 uppercase"
+              style={{ fontFamily: 'var(--font-display, sans-serif)' }}
+            >
+              PASSWORD RECOVERY
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Recover access to your organization's energy workspace
+            </p>
+          </div>
 
           {submitted ? (
             <div className="space-y-5 text-center py-2">
-              <div className="inline-flex p-3 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400">
+              <div className="inline-flex p-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-white font-mono uppercase tracking-wide">
-                  Dispatch Dispatched
+                <h3 className="text-base font-bold text-slate-900 uppercase tracking-wide">
+                  Reset Instructions Sent
                 </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  {responseMsg || 'If this company email is registered in the RESK platform, password reset instructions and a secure temporary link have been dispatched.'}
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  {responseMsg || 'If this company email is registered in the RESK platform, password reset instructions have been dispatched.'}
                 </p>
               </div>
 
               {/* Dev token testing helper */}
               {devResetToken && (
-                <div className="p-3 bg-amber-950/40 border border-amber-500/40 rounded-lg text-left text-xs font-mono text-amber-300">
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-left text-xs font-mono text-amber-900">
                   <p className="font-bold mb-1">[DEVELOPMENT DISPATCH CAPTURED]</p>
-                  <p className="text-[11px] text-slate-400 truncate mb-2">Token: {devResetToken}</p>
+                  <p className="text-[11px] text-slate-600 truncate mb-2">Token: {devResetToken}</p>
                   <Link
                     to={`/reset-password?token=${devResetToken}`}
-                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold font-sans text-xs transition-colors"
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold font-sans text-xs transition-colors shadow-2xs"
                   >
                     <span>Proceed to Reset Password</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -87,10 +91,10 @@ export default function ForgotPasswordPage() {
                 </div>
               )}
 
-              <div className="pt-3 border-t border-slate-800/80">
+              <div className="pt-3 border-t border-slate-100">
                 <Link
                   to="/login"
-                  className="inline-flex items-center space-x-2 text-xs font-mono text-amber-400 hover:text-amber-300 font-semibold"
+                  className="inline-flex items-center space-x-2 text-xs text-teal-700 hover:text-teal-800 font-semibold"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Return to Sign In</span>
@@ -100,32 +104,36 @@ export default function ForgotPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3.5 rounded-lg bg-red-950/50 border border-red-500/40 flex items-start space-x-2.5 text-red-200 text-xs">
-                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-400" />
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-2.5 text-red-800 text-xs">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
                   <p className="font-medium">{error}</p>
                 </div>
               )}
 
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Enter your registered official company email address. We will generate a secure reset token valid for 15 minutes.
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Enter your registered official company email address. We will verify your organization records and dispatch a secure reset token.
               </p>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label
+                  htmlFor="email"
+                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                >
                   Official Company Email
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                    <Mail className="h-4 w-4" />
+                <div className="relative rounded-lg shadow-2xs">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <Mail className="h-4 w-4 text-teal-600" />
                   </div>
                   <input
+                    id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="security@enterprise.com"
+                    placeholder="operations@company.com"
                     required
                     autoFocus
-                    className="block w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/80 font-mono"
+                    className="block w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono transition-all"
                   />
                 </div>
               </div>
@@ -134,35 +142,35 @@ export default function ForgotPasswordPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md shadow-amber-400/25 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Generating Secure Token...</span>
+                      <span>Sending Reset Link...</span>
                     </>
                   ) : (
                     <>
-                      <span>Request Password Reset</span>
+                      <span>Dispatch Reset Link</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 text-center">
+              <div className="pt-3 border-t border-slate-100 text-center">
                 <Link
                   to="/login"
-                  className="inline-flex items-center space-x-1.5 text-xs text-slate-400 hover:text-amber-400 transition-colors"
+                  className="inline-flex items-center space-x-1.5 text-xs text-slate-600 hover:text-teal-700 transition-colors"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Return to Sign In</span>
+                  <span>Back to Sign In</span>
                 </Link>
               </div>
             </form>
           )}
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

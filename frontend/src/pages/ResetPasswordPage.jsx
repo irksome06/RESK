@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { KeyRound, CheckCircle2, AlertTriangle, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ArrowRight, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
 import PasswordInput from '../components/PasswordInput';
 import PasswordStrengthIndicator from '../components/PasswordStrengthIndicator';
+import AuthLayout from '../components/AuthLayout';
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -53,45 +54,52 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-industrial-grid">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex p-3 rounded-2xl bg-slate-900/90 border border-amber-500/30 glow-amber mb-1">
-            <ShieldCheck className="w-8 h-8 text-amber-400" />
-          </div>
-          <h1
-            className="text-2xl sm:text-3xl font-bold tracking-wider text-white uppercase"
-            style={{ fontFamily: 'var(--font-display, sans-serif)' }}
-          >
-            Reset Master Password
-          </h1>
-          <p className="text-xs text-slate-400 font-mono tracking-wide uppercase">
-            RESK Defense Credential Re-Keying
-          </p>
-        </div>
+    <AuthLayout>
+      <div className="w-full space-y-4">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 relative overflow-hidden border border-slate-200">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-600 via-amber-400 to-emerald-500"></div>
 
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600"></div>
+          {/* Heading */}
+          <div className="mb-6 space-y-1">
+            <div className="flex items-center space-x-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono uppercase bg-teal-50 text-teal-800 border border-teal-200 font-semibold">
+                Credential Reset
+              </span>
+            </div>
+            <h2
+              className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 uppercase"
+              style={{ fontFamily: 'var(--font-display, sans-serif)' }}
+            >
+              RESET PASSWORD
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Establish a new password for your organization's energy workspace
+            </p>
+          </div>
 
           {success ? (
             <div className="space-y-5 text-center py-2">
-              <div className="inline-flex p-3 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400">
+              <div className="inline-flex p-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-white font-mono uppercase tracking-wide">
-                  Credentials Updated
+                <h3 className="text-base font-bold text-slate-900 uppercase tracking-wide">
+                  Password Updated
                 </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Your master password has been successfully re-keyed. You can now authenticate with your Organization Registration ID and new password.
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Your organization's password has been updated. You can now authenticate with your Registration ID and new password.
                 </p>
               </div>
 
               <div className="pt-2">
                 <button
-                  onClick={() => navigate('/login', { state: { message: 'Password updated. Sign in with your Registration ID.' } })}
-                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-amber-500/20"
+                  onClick={() =>
+                    navigate('/login', {
+                      state: { message: 'Password updated. Sign in with your Registration ID.' },
+                    })
+                  }
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md shadow-amber-400/25"
                 >
                   <span>Proceed to Sign In</span>
                   <ArrowRight className="w-4 h-4" />
@@ -101,30 +109,29 @@ export default function ResetPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3.5 rounded-lg bg-red-950/50 border border-red-500/40 flex items-start space-x-2.5 text-red-200 text-xs">
-                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-400" />
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-2.5 text-red-800 text-xs">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
                   <p className="font-medium">{error}</p>
                 </div>
               )}
 
               {/* Reset Token */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label
+                  htmlFor="resetToken"
+                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                >
                   Reset Token
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                    <KeyRound className="h-4 w-4" />
-                  </div>
-                  <input
-                    type="text"
-                    value={resetToken}
-                    onChange={(e) => setResetToken(e.target.value)}
-                    placeholder="Enter or paste token..."
-                    required
-                    className="block w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-lg text-xs text-amber-400 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/80 font-mono"
-                  />
-                </div>
+                <input
+                  id="resetToken"
+                  type="text"
+                  value={resetToken}
+                  onChange={(e) => setResetToken(e.target.value)}
+                  placeholder="Paste reset token string..."
+                  required
+                  className="block w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600"
+                />
               </div>
 
               {/* New Password */}
@@ -136,8 +143,8 @@ export default function ResetPasswordPage() {
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                   autoComplete="new-password"
-                  label="New Master Password"
-                  placeholder="Enter strong password"
+                  label="New Password"
+                  placeholder="Enter new password"
                 />
                 <PasswordStrengthIndicator password={newPassword} />
               </div>
@@ -153,7 +160,9 @@ export default function ResetPasswordPage() {
                   autoComplete="new-password"
                   label="Confirm New Password"
                   placeholder="Repeat new password"
-                  error={confirmPassword && newPassword !== confirmPassword ? 'Passwords do not match' : ''}
+                  error={
+                    confirmPassword && newPassword !== confirmPassword ? 'Passwords do not match' : ''
+                  }
                 />
               </div>
 
@@ -161,12 +170,12 @@ export default function ResetPasswordPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md shadow-amber-400/25 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Updating Security Hash...</span>
+                      <span>Updating Password...</span>
                     </>
                   ) : (
                     <>
@@ -177,18 +186,15 @@ export default function ResetPasswordPage() {
                 </button>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 text-center">
-                <Link
-                  to="/login"
-                  className="text-xs font-mono text-amber-400 hover:text-amber-300"
-                >
-                  ← Return to Sign In
+              <div className="pt-3 border-t border-slate-100 text-center">
+                <Link to="/login" className="text-xs text-teal-700 hover:text-teal-800 font-medium">
+                  Cancel and Return to Sign In
                 </Link>
               </div>
             </form>
           )}
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

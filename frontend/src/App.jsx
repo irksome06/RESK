@@ -17,7 +17,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="flex flex-col min-h-screen bg-[#06090e] text-slate-100 font-sans">
+        <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
           <Navbar />
           <main className="flex-1">
             <Routes>
@@ -25,8 +25,8 @@ export default function App() {
               <Route path="/" element={<Navigate to="/login" replace />} />
 
               {/* Authentication Routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage initialMode="login" />} />
+              <Route path="/register" element={<LoginPage initialMode="register" />} />
               <Route path="/register/verify" element={<RegisterVerifyPage />} />
               <Route path="/register/success" element={<RegisterSuccessPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />

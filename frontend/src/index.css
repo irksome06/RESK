@@ -2,57 +2,60 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-    --font-display: 'Chakra Petch', sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --font-display: 'Chakra Petch', 'Inter', sans-serif;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #06090e;
-    color: #e2e8f0;
+    background-color: #f8fafc;
+    color: #0f172a;
+    overflow-x: hidden;
   }
 }
 
-/* Industrial Tech Background Pattern */
-.bg-industrial-grid {
-  background-size: 36px 36px;
+/* Light Energy-Tech Background Pattern */
+.bg-light-energy-grid {
+  background-color: #f8fafc;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(13, 148, 136, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(13, 148, 136, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(13, 148, 136, 0.06) 0%, transparent 45%);
+  background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
 }
 
-.bg-industrial-dots {
-  background-image: radial-gradient(rgba(245, 158, 11, 0.12) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Light Card with Soft Shadows and Clean Borders */
+.energy-card-light {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.06), 0 4px 8px -2px rgba(15, 23, 42, 0.03);
 }
 
-/* Metallic and glow accents */
-.glow-amber {
-  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25);
+/* Energy subtle accents */
+.accent-amber-btn {
+  background: #f59e0b;
+  color: #0f172a;
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.35);
+}
+.accent-amber-btn:hover {
+  background: #d97706;
+  box-shadow: 0 6px 18px 0 rgba(245, 158, 11, 0.45);
 }
 
-.glow-cyan {
-  box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.25);
+/* Custom clean scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-
-.border-industrial {
-  border-color: rgba(255, 255, 255, 0.08);
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
 }
-
-.border-industrial-highlight {
-  border-color: rgba(245, 158, 11, 0.35);
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
 }
-
-/* Subtle scanlines effect for authentic control room vibe */
-.scanline-overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.2)
-  );
-  background-size: 100% 4px;
-  pointer-events: none;
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

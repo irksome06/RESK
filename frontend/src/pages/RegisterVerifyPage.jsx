@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { MailCheck, CheckCircle2, AlertTriangle, ArrowRight, Loader2, Shield } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, ArrowRight, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
+import AuthLayout from '../components/AuthLayout';
 
 export default function RegisterVerifyPage() {
   const [searchParams] = useSearchParams();
@@ -58,39 +59,42 @@ export default function RegisterVerifyPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-industrial-grid">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-flex p-3 rounded-2xl bg-slate-900/90 border border-amber-500/30 glow-amber mb-1">
-            <MailCheck className="w-8 h-8 text-amber-400" />
-          </div>
-          <h1
-            className="text-2xl sm:text-3xl font-bold tracking-wider text-white uppercase"
-            style={{ fontFamily: 'var(--font-display, sans-serif)' }}
-          >
-            Email Verification
-          </h1>
-          <p className="text-xs text-slate-400 font-mono tracking-wide uppercase">
-            RESK Defense Clearance Verification
-          </p>
-        </div>
+    <AuthLayout>
+      <div className="w-full space-y-4">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 relative overflow-hidden border border-slate-200">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-600 via-amber-400 to-emerald-500"></div>
 
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600"></div>
+          {/* Heading */}
+          <div className="mb-6 space-y-1">
+            <div className="flex items-center space-x-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono uppercase bg-teal-50 text-teal-800 border border-teal-200 font-semibold">
+                Email Authentication
+              </span>
+            </div>
+            <h2
+              className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 uppercase"
+              style={{ fontFamily: 'var(--font-display, sans-serif)' }}
+            >
+              EMAIL VERIFICATION
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Verify your official company email to activate your energy workspace
+            </p>
+          </div>
 
           {status === 'success' ? (
             <div className="text-center space-y-5 py-4">
-              <div className="inline-flex p-3 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400">
+              <div className="inline-flex p-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+                <h3 className="text-lg font-bold text-slate-900 uppercase tracking-wider font-mono">
                   Verification Confirmed
                 </h3>
-                <p className="text-xs text-slate-300 mt-2">{message}</p>
+                <p className="text-xs text-slate-600 mt-2">{message}</p>
                 {verifiedRegId && (
-                  <p className="text-xs font-mono text-amber-400 mt-2 bg-slate-950 p-2 rounded border border-slate-800">
+                  <p className="text-xs font-mono text-teal-800 mt-2 bg-teal-50 p-2.5 rounded-xl border border-teal-200">
                     {verifiedRegId}
                   </p>
                 )}
@@ -98,8 +102,8 @@ export default function RegisterVerifyPage() {
 
               <div className="pt-2">
                 <button
-                  onClick={() => navigate('/login', { state: { message: 'Email verified successfully.' } })}
-                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-amber-500/20"
+                  onClick={() => navigate('/login')}
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md shadow-amber-400/25"
                 >
                   <span>Proceed to Sign In</span>
                   <ArrowRight className="w-4 h-4" />
@@ -109,31 +113,28 @@ export default function RegisterVerifyPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {status === 'error' && (
-                <div className="p-3.5 rounded-lg bg-red-950/50 border border-red-500/40 flex items-start space-x-2.5 text-red-200 text-xs">
-                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-400" />
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-2.5 text-red-800 text-xs">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
                   <p className="font-medium">{message}</p>
                 </div>
               )}
 
-              <p className="text-xs text-slate-400">
-                Enter the 6-digit verification code sent to your company email address.
-              </p>
-
+              {/* Option A: Email + Code */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
                   Official Company Email
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="security@company.com"
-                  className="block w-full px-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/80 font-mono"
+                  placeholder="operations@company.com"
+                  className="block w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
                   6-Digit Verification Code
                 </label>
                 <input
@@ -141,8 +142,28 @@ export default function RegisterVerifyPage() {
                   maxLength="6"
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                  placeholder="000000"
-                  className="block w-full py-2.5 text-center bg-slate-950/80 border border-slate-800 rounded-lg text-lg text-amber-400 font-mono tracking-[0.4em] focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/80"
+                  placeholder="123456"
+                  className="block w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm font-mono tracking-widest text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600"
+                />
+              </div>
+
+              <div className="relative py-2 flex items-center justify-center">
+                <div className="border-t border-slate-200 w-full absolute"></div>
+                <span className="bg-white px-3 text-[10px] font-mono text-slate-400 relative uppercase">
+                  OR VERIFY VIA TOKEN
+                </span>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Direct Verification Token
+                </label>
+                <input
+                  type="text"
+                  value={token}
+                  onChange={(e) => setToken(e.target.value)}
+                  placeholder="Paste verification token string..."
+                  className="block w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600"
                 />
               </div>
 
@@ -150,31 +171,31 @@ export default function RegisterVerifyPage() {
                 <button
                   type="submit"
                   disabled={status === 'verifying'}
-                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50 shadow-lg shadow-amber-500/20"
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md shadow-amber-400/25 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {status === 'verifying' ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Verifying Token...</span>
+                      <span>Validating Verification Token...</span>
                     </>
                   ) : (
                     <>
-                      <span>Verify Email</span>
+                      <span>Confirm Verification</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="pt-4 border-t border-slate-800/80 text-center">
-                <Link to="/login" className="text-xs text-amber-400 hover:underline font-mono">
-                  ← Return to Sign In
+              <div className="pt-3 border-t border-slate-100 text-center">
+                <Link to="/login" className="text-xs text-teal-700 hover:text-teal-800 font-medium">
+                  Return to Sign In
                 </Link>
               </div>
             </form>
           )}
         </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
