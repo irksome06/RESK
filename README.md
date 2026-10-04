@@ -92,6 +92,12 @@ RESK/
 │   ├── .env
 │   ├── package.json
 │   └── vite.config.js
+├── machine_health/
+│   ├── data/                 # Evaluation and dummy vibration test datasets
+│   ├── outputs/              # EDA charts, evaluation plots, models, and audit reports
+│   ├── *.ipynb               # Predictive maintenance ML workflows
+│   ├── *.py                  # Evaluation scripts and notebook execution helpers
+│   └── README.md             # Machine Health module documentation
 ├── .gitignore
 └── README.md
 ```
