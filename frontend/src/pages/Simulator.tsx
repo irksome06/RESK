@@ -1,0 +1,20 @@
+import { useState } from 'react'
+import { FlaskConical, Gauge, Sun, MoveRight } from 'lucide-react'
+import { whatIf } from '../lib/api'
+import { Card } from '../components/ui/Card'
+
+const controls = [
+ {key:'load', label:'Flexible load shift', unit:'%', min:-20, max:40},
+ {key:'peak', label:'Peak demand cap', unit:' kW', min:450, max:700},
+ {key:'solar', label:'Additional solar', unit:' kW', min:0, max:250},
+] as const
+
+export default function Simulator(){
+ const [loadShift,setLoadShift]=useState(10),[peakCap,setPeakCap]=useState(620),[solar,setSolar]=useState(50),[result,setResult]=useState<any>(),[busy,setBusy]=useState(false)
+ const values: Record<typeof controls[number]['key'], number> = {load:loadShift,peak:peakCap,solar}
+ const setters: Record<typeof controls[number]['key'], (n:number)=>void> = {load:setLoadShift,peak:setPeakCap,solar:setSolar}
+ const run=async()=>{setBusy(true);try{setResult(await whatIf({load_shift_pct:loadShift,peak_cap_kw:peakCap,solar_add_kw:solar}))}finally{setBusy(false)}}
+ return <div className="grid-bg min-h-full pb-10"><div className="grid gap-5 xl:grid-cols-[.9fr_1.1fr]"><Card className="p-5"><div className="flex items-start gap-3"><div className="rounded-xl bg-acid/10 p-2.5 text-acid"><FlaskConical size={18}/></div><div><h2 className="font-display text-lg font-semibold">What-if Simulator</h2><p className="mt-1 text-xs leading-5 text-white/35">Stress the operating plan before touching the actual factory schedule.</p></div></div><div className="mt-6 space-y-6">{controls.map(c=>{const value=values[c.key]; return <div key={c.key}><div className="mb-2 flex justify-between text-xs"><span className="text-white/55">{c.label}</span><span className="font-semibold text-acid">{value}{c.unit}</span></div><input className="w-full accent-[#d7ff57]" type="range" min={c.min} max={c.max} value={value} onChange={e=>setters[c.key](Number(e.target.value))}/><div className="mt-2 flex justify-between text-[9px] text-white/20"><span>{c.min}{c.unit}</span><span>{c.max}{c.unit}</span></div></div>})}</div><button onClick={run} disabled={busy} className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-acid px-4 py-3 text-sm font-bold text-ink disabled:opacity-50">{busy?'Simulating...':'Run simulation'}<MoveRight size={16}/></button></Card><div className="grid gap-4 sm:grid-cols-2"><ImpactCard icon={<Gauge size={16}/>} label="Cost saved" value={result?`₹${Math.round(result.impact.cost_saved_inr).toLocaleString()}`:'Run a scenario'}/><ImpactCard icon={<Gauge size={16}/>} label="Energy saved" value={result?`${Math.round(result.impact.energy_saved_kwh)} kWh`:'--'}/><ImpactCard icon={<Sun size={16}/>} label="CO₂ reduction" value={result?`${Math.round(result.impact.co2_reduction_kg)} kg`:'--'}/><ImpactCard icon={<Gauge size={16}/>} label="Peak reduction" value={result?`${Math.round(result.impact.peak_reduction_kw)} kW`:'--'}/><Card className="p-5 sm:col-span-2"><div className="text-[10px] font-bold uppercase tracking-[.2em] text-white/25">Scenario inputs</div><div className="mt-3 grid grid-cols-3 gap-3"><Mini label="Load shift" value={`${loadShift}%`}/><Mini label="Peak cap" value={`${peakCap} kW`}/><Mini label="Solar" value={`${solar} kW`}/></div></Card></div></div></div>
+}
+function ImpactCard({icon,label,value}:{icon:any;label:string;value:string}){return <Card className="min-h-[160px] p-5"><div className="flex h-full flex-col justify-between"><div className="flex items-center justify-between"><span className="rounded-lg bg-acid/10 p-2 text-acid">{icon}</span><span className="text-[10px] uppercase tracking-[.18em] text-white/20">Impact</span></div><div><div className="text-xs text-white/35">{label}</div><div className="mt-1 font-display text-2xl font-semibold">{value}</div></div></div></Card>}
+function Mini({label,value}:{label:string;value:string}){return <div className="rounded-xl border border-white/[.05] bg-white/[.02] p-3"><div className="text-[10px] uppercase tracking-widest text-white/25">{label}</div><div className="mt-1 text-xs font-semibold">{value}</div></div>}
