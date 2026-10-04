@@ -209,12 +209,18 @@ RESK/
 │   ├── tests/                     # Unit and integration test suite
 │   ├── requirements.txt           # Engine Python dependencies
 │   └── docker-compose.yml         # Mosquitto & PostgreSQL container definitions
-├── machine_health/                # Machine Health & Predictive Maintenance
-│   ├── data/                      # Vibration test datasets
-│   ├── outputs/                   # Serialized anomaly models, reports, and EDA plots
-│   ├── *.ipynb                    # Feature engineering & ML training workflows
-│   ├── test_synthetic_dummy_dataset.py # Anomaly detector test suite
-│   └── README.md                  # Machine health module documentation
+├── MACHINE_HEALTH/                # Machine Health & Predictive Maintenance
+│   ├── data/                      # Evaluation and sample vibration test datasets
+│   ├── notebooks/                 # Bearing health ML development notebook
+│   ├── outputs/                   # Diagnostic EDA figures, evaluation plots, and audit reports
+│   │   ├── eda/
+│   │   ├── evaluation/
+│   │   ├── models/                # Pretrained Isolation Forest pipeline (1.99 MB)
+│   │   └── reports/
+│   ├── scripts/                   # Independent test and verification harness
+│   ├── requirements.txt           # Module Python dependencies
+│   ├── .gitignore
+│   └── README.md                  # Machine Health module documentation
 ├── .gitignore
 ├── resk.db                        # Development SQLite database
 └── README.md                      # Project documentation

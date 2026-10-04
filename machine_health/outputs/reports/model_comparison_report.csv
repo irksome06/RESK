@@ -1,5 +1,0 @@
-Model Architecture,Preprocessing,Cross-Validation,Macro F1 Score,Balanced Accuracy,Fault Class Recall,Model Selection
-Random Forest (Pipeline),Median Imputer,5-Fold GroupKFold (File),NOT AVAILABLE,NOT AVAILABLE,NOT AVAILABLE,Awaiting Target Labels
-Random Forest (Tuned),Median Imputer,5-Fold GroupKFold (File),NOT AVAILABLE,NOT AVAILABLE,NOT AVAILABLE,Awaiting Target Labels
-SVM (RBF Kernel Pipeline),StandardScaler + Imputer,5-Fold GroupKFold (File),NOT AVAILABLE,NOT AVAILABLE,NOT AVAILABLE,Awaiting Target Labels
-SVM (Tuned),StandardScaler + Imputer,5-Fold GroupKFold (File),NOT AVAILABLE,NOT AVAILABLE,NOT AVAILABLE,Awaiting Target Labels
