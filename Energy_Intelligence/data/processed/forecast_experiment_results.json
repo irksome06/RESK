@@ -1,0 +1,184 @@
+{
+  "timestamp": "2026-10-04T05:59:03.744446+00:00",
+  "model_version": "v1_short_horizon",
+  "description": "Short-Horizon Energy Forecasting Engine (1-minute intervals)",
+  "total_samples": 352,
+  "train_samples": 281,
+  "test_samples": 71,
+  "train_period": [
+    "2026-10-02 08:03:00+00:00",
+    "2026-10-02 09:13:00+00:00"
+  ],
+  "test_period": [
+    "2026-10-02 09:13:00+00:00",
+    "2026-10-02 09:30:00+00:00"
+  ],
+  "forecasting_horizon_minutes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "target": "target_energy_1min_kwh",
+  "features": [
+    "lag_1_energy",
+    "lag_2_energy",
+    "lag_3_energy",
+    "rolling_mean_energy",
+    "rolling_std_energy",
+    "production_rate",
+    "rpm",
+    "torque_nm",
+    "temperature_c",
+    "vibration",
+    "health_score",
+    "anomaly_score",
+    "hour_of_day",
+    "day_of_week",
+    "machine_state",
+    "machine_id"
+  ],
+  "cv_method": "TimeSeriesSplit(n_splits=5)",
+  "selected_model": "GradientBoosting",
+  "best_hyperparameters": {
+    "regressor__learning_rate": 0.1,
+    "regressor__max_depth": 5,
+    "regressor__n_estimators": 100
+  },
+  "cv_metrics": {
+    "cv_mae": 0.000156,
+    "cv_std_mae": 7.8e-05,
+    "cv_rmse": 0.000293,
+    "cv_r2": 1.0
+  },
+  "test_metrics": {
+    "test_mae": 0.004418,
+    "test_rmse": 0.020797,
+    "test_r2": 0.8735,
+    "test_mase": 0.0667
+  },
+  "random_state": 42,
+  "model_comparison": [
+    {
+      "model_name": "GradientBoosting",
+      "cv_mae": 0.000156,
+      "cv_std_mae": 7.8e-05,
+      "cv_rmse": 0.000293,
+      "cv_r2": 1.0,
+      "best_params": {
+        "regressor__learning_rate": 0.1,
+        "regressor__max_depth": 5,
+        "regressor__n_estimators": 100
+      },
+      "test_mae": 0.004418,
+      "test_rmse": 0.020797,
+      "test_r2": 0.8735,
+      "test_mase": 0.0667,
+      "selected": true
+    },
+    {
+      "model_name": "Ridge",
+      "cv_mae": 0.000278,
+      "cv_std_mae": 0.00011,
+      "cv_rmse": 0.000349,
+      "cv_r2": 1.0,
+      "best_params": {
+        "regressor__alpha": 0.1
+      },
+      "test_mae": 0.005025,
+      "test_rmse": 0.023382,
+      "test_r2": 0.8401,
+      "test_mase": 0.0759,
+      "selected": false
+    },
+    {
+      "model_name": "RandomForest",
+      "cv_mae": 0.000402,
+      "cv_std_mae": 0.000428,
+      "cv_rmse": 0.000737,
+      "cv_r2": 0.9996,
+      "best_params": {
+        "regressor__max_depth": 10,
+        "regressor__n_estimators": 50
+      },
+      "test_mae": 0.004163,
+      "test_rmse": 0.019468,
+      "test_r2": 0.8892,
+      "test_mase": 0.0629,
+      "selected": false
+    },
+    {
+      "model_name": "XGBoost",
+      "cv_mae": 0.001373,
+      "cv_std_mae": 0.000644,
+      "cv_rmse": 0.004583,
+      "cv_r2": 0.9906,
+      "best_params": {
+        "regressor__learning_rate": 0.1,
+        "regressor__max_depth": 3,
+        "regressor__n_estimators": 100
+      },
+      "test_mae": 0.002943,
+      "test_rmse": 0.012717,
+      "test_r2": 0.9527,
+      "test_mase": 0.0445,
+      "selected": false
+    },
+    {
+      "model_name": "NaivePersistence",
+      "cv_mae": 0.020212,
+      "cv_std_mae": 0.00082,
+      "cv_rmse": 0.0406,
+      "cv_r2": 0.4289,
+      "best_params": {},
+      "test_mae": 0.02357,
+      "test_rmse": 0.045161,
+      "test_r2": 0.4036,
+      "test_mase": 0.3561,
+      "selected": false
+    },
+    {
+      "model_name": "MovingAverage",
+      "cv_mae": 0.021846,
+      "cv_std_mae": 0.00102,
+      "cv_rmse": 0.036006,
+      "cv_r2": 0.5519,
+      "best_params": {},
+      "test_mae": 0.024688,
+      "test_rmse": 0.042551,
+      "test_r2": 0.4706,
+      "test_mase": 0.3729,
+      "selected": false
+    }
+  ],
+  "winning_model_metrics": {
+    "model_name": "GradientBoosting",
+    "cv_mae": 0.000156,
+    "cv_std_mae": 7.8e-05,
+    "cv_rmse": 0.000293,
+    "cv_r2": 1.0,
+    "best_params": {
+      "regressor__learning_rate": 0.1,
+      "regressor__max_depth": 5,
+      "regressor__n_estimators": 100
+    },
+    "test_mae": 0.004418,
+    "test_rmse": 0.020797,
+    "test_r2": 0.8735,
+    "test_mase": 0.0667,
+    "selected": true
+  },
+  "data_leakage_audit": {
+    "no_future_energy_used": true,
+    "no_future_production_used": true,
+    "no_future_machine_state_used": true,
+    "lags_strictly_historical": true,
+    "rolling_windows_backward_looking": true,
+    "chronological_train_test_split": true,
+    "test_set_untouched_during_tuning": true,
+    "preprocessing_inside_cv": true,
+    "no_random_kfold": true,
+    "forecast_horizon_correctly_implemented": true
+  }
+}

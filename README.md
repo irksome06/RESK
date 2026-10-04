@@ -92,6 +92,7 @@ RESK/
 │   ├── .env
 │   ├── package.json
 │   └── vite.config.js
+├── Energy_Intelligence/      # Energy & Production Intelligence copilot, forecasting & telemetry
 ├── MACHINE_HEALTH/
 │   ├── data/                 # Evaluation and sample vibration test datasets
 │   ├── notebooks/            # Bearing health ML development notebook
