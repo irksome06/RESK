@@ -1,0 +1,7 @@
+Audit Dimension,Finding,Risk / Implication
+1. Target Label Creation,"Labels are created via prefix mapping: K00x = 0 (Healthy), KA/KI/KB = 1 (Damaged).","Static assignment at bearing level. Every window of K001 is healthy, every window of KA01 is damaged."
+2. Proxy vs. Verified Condition,Labels reflect Paderborn University testbench experimental conditions (run-in vs artificially damaged).,Valid for benchmark classification; does NOT represent dynamic machinery wear or repair urgency.
+3. Training & Validation Grouping,"File-level GroupKFold groups 1,040 files; Bearing-level GroupKFold groups 13 bearings.",File-level CV allows different files from the SAME bearing into train and val (bearing identity leakage).
+4. Data Leakage Risks,Window autocorrelation is prevented by file grouping; bearing acoustic leakage requires bearing grouping.,Evaluating unseen machines requires strict bearing-level holdouts (zero-shot fleet generalization).
+5. Pipeline Leakage Safety,Imputation and StandardScaler are strictly embedded inside scikit-learn Pipelines.,Zero leakage: transformation statistics are computed strictly on training folds.
+6. Model & Report Synchronization,"Evaluated artifacts, CSV reports, and serialized pipelines are synchronized directly with execution.",Eliminates stale scores; all reported numbers match exact out-of-fold evaluations.
