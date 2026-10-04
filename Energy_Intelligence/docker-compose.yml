@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # MQTT Message Broker
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: yuva_mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+
+  # Industrial Timeseries / Relational Store
+  postgres:
+    image: postgres:15-alpine
+    container_name: yuva_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: yuva_user
+      POSTGRES_PASSWORD: yuva_password
+      POSTGRES_DB: yuva_energy_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yuva_user -d yuva_energy_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  postgres_data:
