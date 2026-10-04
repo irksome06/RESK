@@ -92,6 +92,18 @@ RESK/
 │   ├── .env
 │   ├── package.json
 │   └── vite.config.js
+├── MACHINE_HEALTH/
+│   ├── data/                 # Evaluation and sample vibration test datasets
+│   ├── notebooks/            # Bearing health ML development notebook
+│   ├── outputs/              # Diagnostic EDA figures, evaluation plots, and audit reports
+│   │   ├── eda/
+│   │   ├── evaluation/
+│   │   ├── models/           # Pretrained Isolation Forest pipeline (1.99 MB)
+│   │   └── reports/
+│   ├── scripts/              # Independent test and verification harness
+│   ├── requirements.txt      # Module Python dependencies
+│   ├── .gitignore
+│   └── README.md             # Machine Health module documentation
 ├── .gitignore
 └── README.md
 ```
